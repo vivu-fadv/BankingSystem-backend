@@ -1,9 +1,7 @@
 package com.Banking.BankingSystem.Controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,38 +13,41 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.Banking.BankingSystem.DAO.AccountDAO;
 import com.Banking.BankingSystem.Model.Account;
-import com.Banking.BankingSystem.Repository.AccountRepository;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200") // Allow Angular application to access this API
 @RequestMapping("/api/v1/")
 public class AccountController {
 	@Autowired
-	private AccountRepository accountRepository;
+	private AccountDAO accountDAO;
+	
+	public AccountController(AccountDAO accountDAO) {
+		this.accountDAO = accountDAO;
+	}
 
 	@GetMapping("/welcome")
 	public String home() {
-		return "Welcome to Banking Management System";
+		return "Welcome to Banking Management Application";
 	}
 
 	// get all accounts
 	@GetMapping("/accounts")
 	public List<Account> getAllAccounts() {
-		return accountRepository.findAll();
+		return accountDAO.getAllAccounts();
 	}
 	
 	// create account rest api
 	@PostMapping("/accounts")
 	public Account createAccount(@RequestBody Account account) {
-		return accountRepository.save(account);
+		return accountDAO.createAccount(account);
 	}
 	
 	// get account by id rest api
 	@GetMapping("/accounts/{id}")
 	public ResponseEntity<Account> getAccountById(@PathVariable Integer id) {
-		Account account = accountRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Account not exist with id: " + id));
+		Account account = accountDAO.getAccountById(id);
 		
 		return ResponseEntity.ok(account);
 	}
@@ -55,14 +56,13 @@ public class AccountController {
 	@PutMapping("/accounts/{id}")
     public ResponseEntity<Account> updateAccount(@PathVariable Integer id, @RequestBody Account accountDetails)
 	{
-        Account account = accountRepository.findById(id)
-                .orElse(accountDetails);
+		Account account = accountDAO.getAccountById(id, accountDetails);
         
         account.setFirstName(accountDetails.getFirstName());
         account.setLastName(accountDetails.getLastName());
         account.setEmail(accountDetails.getEmail());
         
-        Account updatedAccount = accountRepository.save(account);
+        Account updatedAccount = accountDAO.updateAccount(account);
         return ResponseEntity.ok(updatedAccount);
 	}
 	
@@ -70,13 +70,7 @@ public class AccountController {
 	@DeleteMapping("/accounts/{id}")
 	public ResponseEntity<Map<String, Boolean>> deleteAccount(@PathVariable Integer id)
     {
-        Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not exist with id: " + id));
-        
-        accountRepository.delete(account);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(accountDAO.deleteAccount(id));
     }
 }
 
