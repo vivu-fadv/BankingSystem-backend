@@ -25,6 +25,4 @@ public class AccountController {
 	public List<Account> getAllAccounts() {
 		return accountRepository.findAll();
 	}
-	
-	//testing
 }
