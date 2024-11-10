@@ -79,4 +79,18 @@ public class Account {
 	public String toString() {
 		return "Account Number: " + id + ", Account Holder: " + accountHolder + ", Balance: " + balance + ", First Name: " + firstName + ", Last Name: " + lastName + ", Email: " + email;
 	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		// TODO Auto-generated method stub
+		this.lastName = lastName;
+	}
+
+	public void setEmail(String email) {
+		// TODO Auto-generated method stub
+		this.email = email;
+	}
 }
