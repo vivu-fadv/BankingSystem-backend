@@ -14,8 +14,8 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	// JPA annotation to specify the generation strategy
 	private Integer id;
 	
-	@Column(name = "account_holder")	// JPA annotation to specify the column
-	private String accountHolder;
+	@Column(name = "username")	// JPA annotation to specify the column
+	private String username;
 	
 	@Column(name = "balance")	// JPA annotation to specify the column
 	private double balance;
@@ -29,26 +29,39 @@ public class Account {
 	@Column(name = "email")	// JPA annotation to specify the column
 	private String email;
 	
+	@Column(name = "city")	// JPA annotation to specify the column
+	private String city;
+	
+	@Column(name = "state")	// JPA annotation to specify the column")
+	private String state;
+	
+	@Column(name = "zip")	// JPA annotation to specify the column")
+	private String zip;
+	
 	public Account() {
 
 	}
 
-	public Account(Integer id, String accountHolder, double balance, String firstName, String lastName, String email) {
+	public Account(Integer id, String username, double balance, String firstName, String lastName, String email, String city, String state, String zip) {
 		super();
 		this.id = id;
-		this.accountHolder = accountHolder;
+		this.username = username;
 		this.balance = balance;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.username = username;
 	}
 
 	public Integer getId() {
 		return id;
 	}
 
-	public String getAccountHolder() {
-		return accountHolder;
+	public String getUsername() {
+		return username;
 	}
 
 	public double getBalance() {
@@ -74,10 +87,22 @@ public class Account {
 	public String getEmail() {
 		return email;
 	}
+	
+	public String getCity() {
+		return city;
+	}
+	
+	public String getState() {
+		return state;
+	}
+	
+	public String getZip() {
+		return zip;
+	}
 
 	@Override
 	public String toString() {
-		return "Account Number: " + id + ", Account Holder: " + accountHolder + ", Balance: " + balance + ", First Name: " + firstName + ", Last Name: " + lastName + ", Email: " + email;
+		return "Account Number: " + id + ", Username: " + username + ", Balance: " + balance + ", First Name: " + firstName + ", Last Name: " + lastName + ", Email: " + email;
 	}
 
 	public void setFirstName(String firstName) {
@@ -92,5 +117,22 @@ public class Account {
 	public void setEmail(String email) {
 		// TODO Auto-generated method stub
 		this.email = email;
+	}
+	
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+	public void setState(String state) {
+		this.state = state;
+	}
+	
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+
+	public void setUserName(String username) {
+		// TODO Auto-generated method stub
+		this.username = username;
 	}
 }

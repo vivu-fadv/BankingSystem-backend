@@ -61,6 +61,9 @@ public class AccountController {
         account.setFirstName(accountDetails.getFirstName());
         account.setLastName(accountDetails.getLastName());
         account.setEmail(accountDetails.getEmail());
+        account.setCity(accountDetails.getCity());
+        account.setState(accountDetails.getState());
+        account.setZip(accountDetails.getZip());
         
         Account updatedAccount = accountDAO.updateAccount(account);
         return ResponseEntity.ok(updatedAccount);
