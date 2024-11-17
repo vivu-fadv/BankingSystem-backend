@@ -18,6 +18,7 @@ public class Account {
 	private String username;
 	
 	@Column(name = "balance")	// JPA annotation to specify the column
+	//@Min(value = 100, message = "Balance must be at least 100")
 	private double balance;
 	
 	@Column(name = "first_name")	// JPA annotation to specify the column
@@ -53,7 +54,7 @@ public class Account {
 		this.city = city;
 		this.state = state;
 		this.zip = zip;
-		this.username = username;
+		//this.username = username;
 	}
 
 	public Integer getId() {
@@ -118,6 +119,12 @@ public class Account {
 		// TODO Auto-generated method stub
 		this.email = email;
 	}
+
+	//Added a setBalance setter to show the balance in the createaccount
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+	
 	
 	public void setCity(String city) {
 		this.city = city;

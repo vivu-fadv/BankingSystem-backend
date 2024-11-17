@@ -68,6 +68,24 @@ public class AccountController {
         Account updatedAccount = accountDAO.updateAccount(account);
         return ResponseEntity.ok(updatedAccount);
 	}
+
+	// Update account balance REST API
+	@PutMapping("/accounts/{id}/balance")
+	public ResponseEntity<Account> updateAccountBalance(@PathVariable Integer id, @RequestBody Map<String, Double> payload) {
+
+		Double balance = payload.get("balance");
+		
+		Account account = accountDAO.getAccountById(id);
+		
+		account.setBalance(balance);
+		
+		Account updatedAccount = accountDAO.updateAccount(account);
+		
+		return ResponseEntity.ok(updatedAccount);
+	}
+
+
+
 	
 	// delete account rest api
 	@DeleteMapping("/accounts/{id}")
