@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.Banking.BankingSystem.DAO.AccountDAO;
-import com.Banking.BankingSystem.Model.Account;
+import com.Banking.BankingSystem.DTO.AccountDTO;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200") // Allow Angular application to access this API
@@ -35,29 +35,29 @@ public class AccountController {
 
 	// get all accounts
 	@GetMapping("/accounts")
-	public List<Account> getAllAccounts() {
+	public List<AccountDTO> getAllAccounts() {
 		return accountDAO.getAllAccounts();
 	}
 	
 	// create account rest api
 	@PostMapping("/accounts")
-	public Account createAccount(@RequestBody Account account) {
+	public AccountDTO createAccount(@RequestBody AccountDTO account) {
 		return accountDAO.createAccount(account);
 	}
 	
 	// get account by id rest api
 	@GetMapping("/accounts/{id}")
-	public ResponseEntity<Account> getAccountById(@PathVariable Integer id) {
-		Account account = accountDAO.getAccountById(id);
+	public ResponseEntity<AccountDTO> getAccountById(@PathVariable Integer id) {
+		AccountDTO account = accountDAO.getAccountById(id);
 		
 		return ResponseEntity.ok(account);
 	}
 	
 	// update account rest api
 	@PutMapping("/accounts/{id}")
-    public ResponseEntity<Account> updateAccount(@PathVariable Integer id, @RequestBody Account accountDetails)
+    public ResponseEntity<AccountDTO> updateAccount(@PathVariable Integer id, @RequestBody AccountDTO accountDetails)
 	{
-		Account account = accountDAO.getAccountById(id, accountDetails);
+		AccountDTO account = accountDAO.getAccountById(id, accountDetails);
         
         account.setFirstName(accountDetails.getFirstName());
         account.setLastName(accountDetails.getLastName());
@@ -66,41 +66,41 @@ public class AccountController {
         account.setState(accountDetails.getState());
         account.setZip(accountDetails.getZip());
         
-        Account updatedAccount = accountDAO.updateAccount(account);
+        AccountDTO updatedAccount = accountDAO.updateAccount(account);
         return ResponseEntity.ok(updatedAccount);
 	}
 
 	// Update account balance REST API
 	@PutMapping("/accounts/{id}/balance")
-	public ResponseEntity<Account> updateAccountBalance(@PathVariable Integer id, @RequestBody Map<String, Double> payload) {
+	public ResponseEntity<AccountDTO> updateAccountBalance(@PathVariable Integer id, @RequestBody Map<String, Double> payload) {
 
 		Double balance = payload.get("balance");		
-		Account account = accountDAO.getAccountById(id);		
+		AccountDTO account = accountDAO.getAccountById(id);		
 		account.setBalance(balance);	
-		Account updatedAccount = accountDAO.updateAccount(account);	
+		AccountDTO updatedAccount = accountDAO.updateAccount(account);	
 		return ResponseEntity.ok(updatedAccount);
 
 	}
 	//Depositing amount
 	@PutMapping("/accounts/{id}/deposit")
-	public ResponseEntity<Account> depositAmount(@PathVariable Integer id, @RequestBody Map<String, Double> payload) {
+	public ResponseEntity<AccountDTO> depositAmount(@PathVariable Integer id, @RequestBody Map<String, Double> payload) {
 
 		double depositAmount = payload.get("amount");
-		Account account = accountDAO.getAccountById(id);
+		AccountDTO account = accountDAO.getAccountById(id);
 		account.setBalance(account.getBalance() + depositAmount);
-		Account updatedAccount = accountDAO.updateAccount(account);
+		AccountDTO updatedAccount = accountDAO.updateAccount(account);
 
 		return ResponseEntity.ok(updatedAccount);
 	}
 
 	@PutMapping("/accounts/{id}/withdraw")
-	public ResponseEntity<Account> withdrawAmount(@PathVariable Integer id, @RequestBody Map<String, Double> payload) {
+	public ResponseEntity<AccountDTO> withdrawAmount(@PathVariable Integer id, @RequestBody Map<String, Double> payload) {
 		double withdrawAmount = payload.get("amount");
-		Account account = accountDAO.getAccountById(id);
+		AccountDTO account = accountDAO.getAccountById(id);
 
 		if (account.getBalance() >= withdrawAmount) {
 			account.setBalance(account.getBalance() - withdrawAmount); // Deduct the balance
-			Account updatedAccount = accountDAO.updateAccount(account);
+			AccountDTO updatedAccount = accountDAO.updateAccount(account);
 			return ResponseEntity.ok(updatedAccount);
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Handle insufficient funds
