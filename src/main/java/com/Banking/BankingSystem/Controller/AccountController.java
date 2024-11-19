@@ -3,6 +3,7 @@ package com.Banking.BankingSystem.Controller;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -73,20 +74,40 @@ public class AccountController {
 	@PutMapping("/accounts/{id}/balance")
 	public ResponseEntity<Account> updateAccountBalance(@PathVariable Integer id, @RequestBody Map<String, Double> payload) {
 
-		Double balance = payload.get("balance");
-		
+		Double balance = payload.get("balance");		
+		Account account = accountDAO.getAccountById(id);		
+		account.setBalance(balance);	
+		Account updatedAccount = accountDAO.updateAccount(account);	
+		return ResponseEntity.ok(updatedAccount);
+
+	}
+	//Depositing amount
+	@PutMapping("/accounts/{id}/deposit")
+	public ResponseEntity<Account> depositAmount(@PathVariable Integer id, @RequestBody Map<String, Double> payload) {
+
+		double depositAmount = payload.get("amount");
 		Account account = accountDAO.getAccountById(id);
-		
-		account.setBalance(balance);
-		
+		account.setBalance(account.getBalance() + depositAmount);
 		Account updatedAccount = accountDAO.updateAccount(account);
-		
+
 		return ResponseEntity.ok(updatedAccount);
 	}
 
+	@PutMapping("/accounts/{id}/withdraw")
+	public ResponseEntity<Account> withdrawAmount(@PathVariable Integer id, @RequestBody Map<String, Double> payload) {
+		double withdrawAmount = payload.get("amount");
+		Account account = accountDAO.getAccountById(id);
+
+		if (account.getBalance() >= withdrawAmount) {
+			account.setBalance(account.getBalance() - withdrawAmount); // Deduct the balance
+			Account updatedAccount = accountDAO.updateAccount(account);
+			return ResponseEntity.ok(updatedAccount);
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Handle insufficient funds
+		}
+	}
 
 
-	
 	// delete account rest api
 	@DeleteMapping("/accounts/{id}")
 	public ResponseEntity<Map<String, Boolean>> deleteAccount(@PathVariable Integer id)
