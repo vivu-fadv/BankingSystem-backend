@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -140,6 +142,18 @@ public class BnkAccountDaoImpl implements AccountDAO {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
+	}
+	
+	@Override
+	public Boolean findByUsernameAndPassword(String username, String password) {
+		List<Account> account = accountRepository.findByUsernameAndPassword(username, password);
+		if (account != null && account.size() > 0) {
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 

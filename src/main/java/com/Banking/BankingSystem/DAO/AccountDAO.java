@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.Banking.BankingSystem.DTO.AccountDTO;
-import com.Banking.BankingSystem.Model.Account;
 
 public interface AccountDAO {
 	AccountDTO createAccount(AccountDTO account);
@@ -15,4 +14,5 @@ public interface AccountDAO {
 	AccountDTO getAccountById(int id, AccountDTO account);
 	AccountDTO updateAccount(AccountDTO account);
 	Map<String, Boolean> deleteAccount(int id);
+	Boolean findByUsernameAndPassword(String username, String password);
 }

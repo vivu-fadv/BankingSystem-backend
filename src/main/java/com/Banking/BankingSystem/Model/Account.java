@@ -39,6 +39,9 @@ public class Account {
 	@Column(name = "zip")	// JPA annotation to specify the column")
 	private String zip;
 	
+	@Column(name = "password") // Ensure this matches the column in the database
+	private String password;
+	
 	public Account() {
 
 	}
@@ -143,5 +146,13 @@ public class Account {
 
 	public void setId(Integer id2) {
 		this.id = id2;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
