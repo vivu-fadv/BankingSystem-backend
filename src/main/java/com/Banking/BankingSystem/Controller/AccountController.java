@@ -129,9 +129,9 @@ public class AccountController {
 
 	// sign up user
 	@PostMapping("/accounts/signup")
-	public ResponseEntity<String> signupAccount(@RequestBody UserRequestDTO user) {
+	public ResponseEntity<Boolean> signupAccount(@RequestBody UserRequestDTO user) {
 		if (accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword())) {
-			return ResponseEntity.ok("User already exists");
+			return ResponseEntity.ok(false);
 		} else {
 			AccountDTO account = new AccountDTO();
 			account.setUsername(user.getUsername());
@@ -139,9 +139,9 @@ public class AccountController {
 			account.setEmail(user.getEmail());
 			accountDAO.createAccount(account);
 			if (account.getId() == 0) {
-				return ResponseEntity.internalServerError().body("Failed");
+				return ResponseEntity.ok(false);
 			}
-			return ResponseEntity.ok("User created successfully");
+			return ResponseEntity.ok(true);
 		}
 	}
 }
