@@ -117,13 +117,31 @@ public class AccountController {
 		return ResponseEntity.ok(accountDAO.deleteAccount(id));
 	}
 
-	// get all accounts
+	// get authenticate
 	@PostMapping("/accounts/login")
 	public ResponseEntity<Boolean> getAuthenticate(@RequestBody UserRequestDTO user) {
 		if (accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword())) {
 			return ResponseEntity.ok(true);
 		} else {
 			return ResponseEntity.ok(false);
+		}
+	}
+
+	// sign up user
+	@PostMapping("/accounts/signup")
+	public ResponseEntity<String> signupAccount(@RequestBody UserRequestDTO user) {
+		if (accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword())) {
+			return ResponseEntity.ok("User already exists");
+		} else {
+			AccountDTO account = new AccountDTO();
+			account.setUsername(user.getUsername());
+			account.setPassword(user.getPassword());
+			account.setEmail(user.getEmail());
+			accountDAO.createAccount(account);
+			if (account.getId() == 0) {
+				return ResponseEntity.internalServerError().body("Failed");
+			}
+			return ResponseEntity.ok("User created successfully");
 		}
 	}
 }

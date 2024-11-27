@@ -155,4 +155,9 @@ public class Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public void setUsername(String username2) {
+		// TODO Auto-generated method stub
+		this.username = username2;
+	}
 }

@@ -29,6 +29,8 @@ public class BnkAccountDaoImpl implements AccountDAO {
     	saveAccount.setLastName(accountDTO.getLastName());
     	saveAccount.setState(accountDTO.getState());
     	saveAccount.setZip(accountDTO.getZip());
+    	saveAccount.setUsername(accountDTO.getUsername());
+    	saveAccount.setPassword(accountDTO.getPassword());
     	var result = accountRepository.save(saveAccount);
     	accountDTO.setId(result.getId());
     	return accountDTO;

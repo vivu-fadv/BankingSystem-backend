@@ -4,136 +4,143 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 
 public class AccountDTO {
-	    @Id
-	    private Integer id;
+	@Id
+	private Integer id;
 
-	    @Column(name = "username")
-	    private String username;
+	@Column(name = "username")
+	private String username;
 
-	    @Column(name = "balance")
-	    // @Min(value = 100, message = "Balance must be at least 100") // Uncomment if validation is required
-	    private double balance;
+	@Column(name = "balance")
+	// @Min(value = 100, message = "Balance must be at least 100") // Uncomment if
+	// validation is required
+	private double balance;
 
-	    @Column(name = "first_name")
-	    private String firstName;
+	@Column(name = "first_name")
+	private String firstName;
 
-	    @Column(name = "last_name")
-	    private String lastName;
+	@Column(name = "last_name")
+	private String lastName;
 
-	    @Column(name = "email")
-	    private String email;
+	@Column(name = "email")
+	private String email;
 
-	    @Column(name = "city")
-	    private String city;
+	@Column(name = "city")
+	private String city;
 
-	    @Column(name = "state")
-	    private String state;
+	@Column(name = "state")
+	private String state;
 
-	    @Column(name = "zip")
-	    private String zip;
+	@Column(name = "zip")
+	private String zip;
 
-	    // Default constructor
-	    public AccountDTO() {}
+	private String password;
 
-	    // Parameterized constructor
-	    public AccountDTO(Integer id, String username, double balance, String firstName, String lastName, String email, String city, String state, String zip) {
-	        this.id = id;
-	        this.username = username;
-	        this.balance = balance;
-	        this.firstName = firstName;
-	        this.lastName = lastName;
-	        this.email = email;
-	        this.city = city;
-	        this.state = state;
-	        this.zip = zip;
-	    }
-	   
+	// Default constructor
+	public AccountDTO() {
+	}
 
-	    // Getters and Setters
-	    public Integer getId() {
-	        return id;
-	    }
+	// Parameterized constructor
+	public AccountDTO(Integer id, String username, double balance, String firstName, String lastName, String email,
+			String city, String state, String zip, String password) {
+		this.id = id;
+		this.username = username;
+		this.balance = balance;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.password = password;
+	}
 
-	    public void setId(Integer id) {
-	        this.id = id;
-	    }
+	// Getters and Setters
+	public Integer getId() {
+		return id;
+	}
 
-	    public String getUsername() {
-	        return username;
-	    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-	    public void setUsername(String username) {
-	        this.username = username;
-	    }
+	public String getUsername() {
+		return username;
+	}
 
-	    public double getBalance() {
-	        return balance;
-	    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-	    public void setBalance(double balance) {
-	        this.balance = balance;
-	    }
+	public double getBalance() {
+		return balance;
+	}
 
-	    public String getFirstName() {
-	        return firstName;
-	    }
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
 
-	    public void setFirstName(String firstName) {
-	        this.firstName = firstName;
-	    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-	    public String getLastName() {
-	        return lastName;
-	    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-	    public void setLastName(String lastName) {
-	        this.lastName = lastName;
-	    }
+	public String getLastName() {
+		return lastName;
+	}
 
-	    public String getEmail() {
-	        return email;
-	    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-	    public void setEmail(String email) {
-	        this.email = email;
-	    }
+	public String getEmail() {
+		return email;
+	}
 
-	    public String getCity() {
-	        return city;
-	    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-	    public void setCity(String city) {
-	        this.city = city;
-	    }
+	public String getCity() {
+		return city;
+	}
 
-	    public String getState() {
-	        return state;
-	    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-	    public void setState(String state) {
-	        this.state = state;
-	    }
+	public String getState() {
+		return state;
+	}
 
-	    public String getZip() {
-	        return zip;
-	    }
+	public void setState(String state) {
+		this.state = state;
+	}
 
-	    public void setZip(String zip) {
-	        this.zip = zip;
-	    }
+	public String getZip() {
+		return zip;
+	}
 
-	    @Override
-	    public String toString() {
-	        return "AccountDTO{" +
-	                "id=" + id +
-	                ", username='" + username + '\'' +
-	                ", balance=" + balance +
-	                ", firstName='" + firstName + '\'' +
-	                ", lastName='" + lastName + '\'' +
-	                ", email='" + email + '\'' +
-	                ", city='" + city + '\'' +
-	                ", state='" + state + '\'' +
-	                ", zip='" + zip + '\'' +
-	                '}';
-	    }
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+
+	@Override
+	public String toString() {
+		return "AccountDTO{" + "id=" + id + ", username='" + username + '\'' + ", balance=" + balance + ", firstName='"
+				+ firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", city='" + city
+				+ '\'' + ", state='" + state + '\'' + ", zip='" + zip + '\'' + '}';
+	}
+
+	public void setPassword(String password) {
+		// TODO Auto-generated method stub
+		this.password = password;
+	}
+
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return password;
+	}
 }
