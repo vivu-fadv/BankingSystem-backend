@@ -42,6 +42,9 @@ public class Account {
 	@Column(name = "zip")	// JPA annotation to specify the column")
 	private String zip;
 	
+	@Column(name = "password") // Ensure this matches the column in the database
+	private String password;
+	
 	public Account() {
 
 	}
@@ -57,7 +60,6 @@ public class Account {
 		this.city = city;
 		this.state = state;
 		this.zip = zip;
-		//this.username = username;
 	}
 
 	public Integer getId() {
@@ -123,7 +125,7 @@ public class Account {
 		this.email = email;
 	}
 
-	//Added a setBalance setter to show the balance in the createaccount
+	//Added a setBalance setter to show the balance in the create account
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
@@ -142,7 +144,23 @@ public class Account {
 	}
 
 	public void setUserName(String username) {
-		// TODO Auto-generated method stub
 		this.username = username;
+	}
+
+	public void setId(Integer id2) {
+		this.id = id2;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setUsername(String username2) {
+		// TODO Auto-generated method stub
+		this.username = username2;
 	}
 }
