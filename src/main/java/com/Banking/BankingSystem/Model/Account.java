@@ -17,6 +17,9 @@ public class Account {
 	@Column(name = "username")	// JPA annotation to specify the column
 	private String username;
 	
+	// @Column(name = "customer_name")	// JPA annotation to specify the column
+	// private String fir + String lastname;
+
 	@Column(name = "balance")	// JPA annotation to specify the column
 	//@Min(value = 100, message = "Balance must be at least 100")
 	private double balance;
