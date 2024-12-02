@@ -1,5 +1,6 @@
 package com.Banking.BankingSystem.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,16 @@ public class AccountController {
 	}
 
 	// get all accounts
-	@GetMapping("/accounts")
-	public List<AccountDTO> getAllAccounts() {
-		return accountDAO.getAllAccounts();
+	@GetMapping("/accounts/{id}/getall")
+	public List<AccountDTO> getAllAccounts(@PathVariable Integer id) {
+		List<AccountDTO> accountListDTO = new ArrayList<>();
+		AccountDTO account = accountDAO.getAccountById(id);
+		if (account != null && account.getIsAdmin()) {
+			return accountDAO.getAllAccounts();
+		}
+
+		accountListDTO.add(accountDAO.getAccountById(id));
+		return accountListDTO;
 	}
 
 	// create account rest api
@@ -119,18 +127,14 @@ public class AccountController {
 
 	// get authenticate
 	@PostMapping("/accounts/login")
-	public ResponseEntity<Boolean> getAuthenticate(@RequestBody UserRequestDTO user) {
-		if (accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword())) {
-			return ResponseEntity.ok(true);
-		} else {
-			return ResponseEntity.ok(false);
-		}
+	public ResponseEntity<Integer> getAuthenticate(@RequestBody UserRequestDTO user) {
+		return ResponseEntity.ok(accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword()));
 	}
 
 	// sign up user
 	@PostMapping("/accounts/signup")
 	public ResponseEntity<Boolean> signupAccount(@RequestBody UserRequestDTO user) {
-		if (accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword())) {
+		if (accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword()) > 0) {
 			return ResponseEntity.ok(false);
 		} else {
 			AccountDTO account = new AccountDTO();

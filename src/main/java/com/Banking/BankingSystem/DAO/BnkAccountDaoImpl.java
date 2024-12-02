@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.Banking.BankingSystem.DTO.AccountDTO;
 import com.Banking.BankingSystem.Model.Account;
 import com.Banking.BankingSystem.Repository.AccountRepository;
@@ -31,6 +28,7 @@ public class BnkAccountDaoImpl implements AccountDAO {
     	saveAccount.setZip(accountDTO.getZip());
     	saveAccount.setUsername(accountDTO.getUsername());
     	saveAccount.setPassword(accountDTO.getPassword());
+    	saveAccount.setIsAdmin(false);
     	var result = accountRepository.save(saveAccount);
     	accountDTO.setId(result.getId());
     	return accountDTO;
@@ -61,6 +59,9 @@ public class BnkAccountDaoImpl implements AccountDAO {
 		    accountDTO.setLastName(account.getLastName());
 		    accountDTO.setState(account.getState());
 		    accountDTO.setZip(account.getZip());
+		    accountDTO.setUsername(account.getUsername());
+		    accountDTO.setPassword(account.getPassword());
+		    accountDTO.setIsAdmin(account.getIsAdmin());
 		    accountListDTO.add(accountDTO);
 		}
 		
@@ -81,6 +82,8 @@ public class BnkAccountDaoImpl implements AccountDAO {
 	    accountDTO.setState(account.getState());
 	    accountDTO.setZip(account.getZip());
 	    accountDTO.setUsername(account.getUsername());
+	    accountDTO.setIsAdmin(account.getIsAdmin());
+	    accountDTO.setPassword(account.getPassword());
 		return accountDTO;
 	}
 	
@@ -95,6 +98,9 @@ public class BnkAccountDaoImpl implements AccountDAO {
 		accountDetails.setLastName(accountDetailsDTO.getLastName());
 		accountDetails.setState(accountDetailsDTO.getState());
 		accountDetails.setZip(accountDetailsDTO.getZip());
+		accountDetails.setIsAdmin(accountDetailsDTO.getIsAdmin());
+		accountDetails.setUsername(accountDetailsDTO.getUsername());
+		accountDetails.setPassword(accountDetailsDTO.getPassword());
         Account account = accountRepository.findById(id)
                 .orElse(accountDetails);
         
@@ -107,6 +113,9 @@ public class BnkAccountDaoImpl implements AccountDAO {
         accountDTO.setLastName(account.getLastName());
         accountDTO.setState(account.getState());
         accountDTO.setZip(account.getZip());
+        accountDTO.setIsAdmin(account.getIsAdmin());
+        accountDTO.setUsername(account.getUsername());
+        accountDTO.setPassword(account.getPassword());
        
 		return accountDTO;
 	}
@@ -122,6 +131,9 @@ public class BnkAccountDaoImpl implements AccountDAO {
 		account.setLastName(accountDTO.getLastName());
 		account.setState(accountDTO.getState());
 		account.setZip(accountDTO.getZip());
+		account.setUsername(accountDTO.getUsername());
+		account.setPassword(accountDTO.getPassword());
+		account.setIsAdmin(accountDTO.getIsAdmin());
 		
 		Account updatedAccount = accountRepository.save(account);
 		AccountDTO updatedAccountDTO = new AccountDTO();
@@ -133,6 +145,9 @@ public class BnkAccountDaoImpl implements AccountDAO {
 	    updatedAccountDTO.setLastName(updatedAccount.getLastName());
 	    updatedAccountDTO.setState(updatedAccount.getState());
 	    updatedAccountDTO.setZip(updatedAccount.getZip());
+	    updatedAccountDTO.setUsername(updatedAccount.getUsername());
+	    updatedAccountDTO.setPassword(updatedAccount.getPassword());
+	    updatedAccountDTO.setIsAdmin(updatedAccount.getIsAdmin());
 		return updatedAccountDTO;
 	}
 
@@ -148,14 +163,14 @@ public class BnkAccountDaoImpl implements AccountDAO {
 	}
 	
 	@Override
-	public Boolean findByUsernameAndPassword(String username, String password) {
+	public int findByUsernameAndPassword(String username, String password) {
 		List<Account> account = accountRepository.findByUsernameAndPassword(username, password);
 		if (account != null && account.size() > 0) {
-			return true;
+			return account.get(0).getId();
 		}
 		else
 		{
-			return false;
+			return 0;
 		}
 	}
 }

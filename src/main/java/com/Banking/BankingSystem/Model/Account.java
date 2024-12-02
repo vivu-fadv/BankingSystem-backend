@@ -45,11 +45,14 @@ public class Account {
 	@Column(name = "password") // Ensure this matches the column in the database
 	private String password;
 	
+	@Column(name = "is_admin")
+	private Boolean isAdmin;
+	
 	public Account() {
 
 	}
 
-	public Account(Integer id, String username, double balance, String firstName, String lastName, String email, String city, String state, String zip) {
+	public Account(Integer id, String username, double balance, String firstName, String lastName, String email, String city, String state, String zip, boolean isAdmin, String password) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -60,6 +63,8 @@ public class Account {
 		this.city = city;
 		this.state = state;
 		this.zip = zip;
+		this.isAdmin = isAdmin;
+		this.password = password;
 	}
 
 	public Integer getId() {
@@ -162,5 +167,13 @@ public class Account {
 	public void setUsername(String username2) {
 		// TODO Auto-generated method stub
 		this.username = username2;
+	}
+	
+	public Boolean getIsAdmin() {
+		return isAdmin;
+	}
+	
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 }

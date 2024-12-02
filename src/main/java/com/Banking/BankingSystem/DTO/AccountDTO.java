@@ -34,6 +34,9 @@ public class AccountDTO {
 	private String zip;
 
 	private String password;
+	
+	@Column(name = "isAdmin")
+	private Boolean isAdmin;
 
 	// Default constructor
 	public AccountDTO() {
@@ -142,5 +145,13 @@ public class AccountDTO {
 	public String getPassword() {
 		// TODO Auto-generated method stub
 		return password;
+	}
+	
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+	
+	public Boolean getIsAdmin() {
+		return isAdmin;
 	}
 }
