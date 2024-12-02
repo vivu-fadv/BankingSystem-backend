@@ -14,5 +14,5 @@ public interface AccountDAO {
 	AccountDTO getAccountById(int id, AccountDTO account);
 	AccountDTO updateAccount(AccountDTO account);
 	Map<String, Boolean> deleteAccount(int id);
-	int findByUsernameAndPassword(String username, String password);
+	AccountDTO findByUsernameAndPassword(String username, String password);
 }

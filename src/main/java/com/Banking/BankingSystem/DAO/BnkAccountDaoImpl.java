@@ -163,15 +163,21 @@ public class BnkAccountDaoImpl implements AccountDAO {
 	}
 	
 	@Override
-	public int findByUsernameAndPassword(String username, String password) {
+	public AccountDTO findByUsernameAndPassword(String username, String password) {
 		List<Account> account = accountRepository.findByUsernameAndPassword(username, password);
-		if (account != null && account.size() > 0) {
-			return account.get(0).getId();
-		}
-		else
-		{
-			return 0;
-		}
+		AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setId(account.get(0).getId());
+        accountDTO.setBalance(account.get(0).getBalance());
+        accountDTO.setCity(account.get(0).getCity());
+        accountDTO.setEmail(account.get(0).getEmail());
+        accountDTO.setFirstName(account.get(0).getFirstName());
+        accountDTO.setLastName(account.get(0).getLastName());
+        accountDTO.setState(account.get(0).getState());
+        accountDTO.setZip(account.get(0).getZip());
+        accountDTO.setIsAdmin(account.get(0).getIsAdmin());
+        accountDTO.setUsername(account.get(0).getUsername());
+        accountDTO.setPassword(account.get(0).getPassword());
+		return accountDTO;
 	}
 }
 

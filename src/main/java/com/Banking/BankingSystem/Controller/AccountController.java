@@ -127,14 +127,15 @@ public class AccountController {
 
 	// get authenticate
 	@PostMapping("/accounts/login")
-	public ResponseEntity<Integer> getAuthenticate(@RequestBody UserRequestDTO user) {
-		return ResponseEntity.ok(accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword()));
+	public ResponseEntity<AccountDTO> getAuthenticate(@RequestBody UserRequestDTO user) {
+		AccountDTO account = accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword()); 
+		return ResponseEntity.ok(account);
 	}
 
 	// sign up user
 	@PostMapping("/accounts/signup")
 	public ResponseEntity<Boolean> signupAccount(@RequestBody UserRequestDTO user) {
-		if (accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword()) > 0) {
+		if (accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword()).getId() > 0) {
 			return ResponseEntity.ok(false);
 		} else {
 			AccountDTO account = new AccountDTO();
