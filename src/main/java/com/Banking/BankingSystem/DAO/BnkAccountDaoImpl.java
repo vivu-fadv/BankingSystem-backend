@@ -80,6 +80,7 @@ public class BnkAccountDaoImpl implements AccountDAO {
 	    accountDTO.setLastName(account.getLastName());
 	    accountDTO.setState(account.getState());
 	    accountDTO.setZip(account.getZip());
+	    accountDTO.setUsername(account.getUsername());
 		return accountDTO;
 	}
 	
