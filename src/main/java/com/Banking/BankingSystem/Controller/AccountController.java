@@ -40,11 +40,16 @@ public class AccountController {
 	public List<AccountDTO> getAllAccounts(@PathVariable Integer id) {
 		List<AccountDTO> accountListDTO = new ArrayList<>();
 		AccountDTO account = accountDAO.getAccountById(id);
-		if (account != null && account.getIsAdmin()) {
+		if(account == null) {
+            return accountListDTO;
+		}
+		
+		if (account.getIsAdmin()) {
 			return accountDAO.getAllAccounts();
 		}
-
+		
 		accountListDTO.add(accountDAO.getAccountById(id));
+
 		return accountListDTO;
 	}
 
@@ -135,7 +140,8 @@ public class AccountController {
 	// sign up user
 	@PostMapping("/accounts/signup")
 	public ResponseEntity<Boolean> signupAccount(@RequestBody UserRequestDTO user) {
-		if (accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword()).getId() > 0) {
+		var result = accountDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+		if (result != null && result.getId() > 0) {
 			return ResponseEntity.ok(false);
 		} else {
 			AccountDTO account = new AccountDTO();

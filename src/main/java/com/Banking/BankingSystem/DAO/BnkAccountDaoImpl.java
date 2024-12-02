@@ -165,6 +165,10 @@ public class BnkAccountDaoImpl implements AccountDAO {
 	@Override
 	public AccountDTO findByUsernameAndPassword(String username, String password) {
 		List<Account> account = accountRepository.findByUsernameAndPassword(username, password);
+		if(account.isEmpty()) {
+            return null;
+		}
+		
 		AccountDTO accountDTO = new AccountDTO();
         accountDTO.setId(account.get(0).getId());
         accountDTO.setBalance(account.get(0).getBalance());
