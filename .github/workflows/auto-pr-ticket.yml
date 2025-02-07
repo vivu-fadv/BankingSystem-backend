@@ -18,9 +18,12 @@ jobs:
          BRANCH_NAME="${{ github.head_ref }}"
          TICKET_NUMBER="0"
          if [[ "$BRANCH_NAME" =~ ^[0-9]+-[a-zA-Z0-9]+$ ]]; then
-          TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
-         fi
-
+          echo "Branch name matches the pattern number-XXX"
+          TICKET_NUMBER=$(echo "$BRANCH_NAME" | cut -d'-' -f1)
+          echo "Ticket Number: $TICKET_NUMBER"
+          else
+          echo "Branch name does not match the pattern number-XXX"
+          fi
       - name: Update PR Description
         uses: actions/github-script@v6
         with:
