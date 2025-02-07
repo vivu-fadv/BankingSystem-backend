@@ -25,6 +25,7 @@ jobs:
           echo "Branch name does not match the pattern number-XXX"
           echo "Ticket Number: $TICKET_NUMBER"
           fi
+          echo "TICKET_NUMBER=$TICKET_NUMBER" >> $GITHUB_ENV
       - name: Update PR Description
         uses: actions/github-script@v6
         with:
