@@ -1,11 +1,11 @@
-name: Auto PR Ticket Number
+name: Auto PR Description
 
 on:
   pull_request:
     types: [opened]
 
 jobs:
-  comment-ticket-number:
+  update-pr-description:
     runs-on: ubuntu-latest
     steps:
       - name: Extract Ticket Number from Branch Name
@@ -13,69 +13,20 @@ jobs:
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
           TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
-          if [[ -z "$TICKET_NUMBER" ]]; then
-            echo "No ticket number found."
-            exit 0
-          fi
+          echo "Ticket Number: $TICKET_NUMBER"
           echo "TICKET_NUMBER=$TICKET_NUMBER" >> $GITHUB_ENV
 
-      - name: Comment on Pull Request
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.PAT_TOKEN }}
-          script: |
-            const ticketNumber = process.env.TICKET_NUMBER;
-            if (!ticketNumber) return;
-            const pr = context.payload.pull_request;
-            github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pr.number,
-              body: `🚀 **Ticket Number:** #${ticketNumber}\n\nThis PR is linked to ticket **#${ticketNumber}**.`
-            });
-This should resolve the permission issue and allow the workflow to comment on the pull request successfully.
-
-Please find a solution for this failing job. Use the logs, job definition, and any referenced files where the failure occurred. Keep your response focused on the solution and include code suggestions when appropriate.
-The error ReferenceError: octokit is not defined indicates that the octokit object is not defined in the script. This likely means that the octokit library is not being imported or initialized properly in the github-script step.
-
-Solution
-Ensure that octokit is properly initialized in the github-script step. Here is the updated workflow file:
-
-YAML
-name: Auto PR Ticket Number
-
-on:
-  pull_request:
-    types: [opened]
-
-jobs:
-  comment-ticket-number:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Extract Ticket Number from Branch Name
-        id: extract_ticket
-        run: |
-          BRANCH_NAME="${{ github.head_ref }}"
-          TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
-          if [[ -z "$TICKET_NUMBER" ]]; then
-            echo "No ticket number found."
-            exit 0
-          fi
-          echo "TICKET_NUMBER=$TICKET_NUMBER" >> $GITHUB_ENV
-
-      - name: Comment on Pull Request
+      - name: Update PR Description
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { Octokit } = require("@octokit/rest");
-            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
             const ticketNumber = process.env.TICKET_NUMBER;
             if (!ticketNumber) return;
             const pr = context.payload.pull_request;
-            octokit.issues.createComment({
+            github.rest.pulls.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: pr.number,
-              body: `🚀 **Ticket Number:** #${ticketNumber}\n\nThis PR is linked to ticket **#${ticketNumber}**.`
+              pull_number: pr.number,
+              body: `## Ticket: #${ticketNumber}\n\n${pr.body || "Description not provided."}`
             });
