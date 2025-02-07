@@ -15,9 +15,13 @@ jobs:
       - name: Extract Ticket Number from Branch Name
         id: extract_ticket
         run: |
-          BRANCH_NAME="${{ github.head_ref }}"
+         BRANCH_NAME="${{ github.head_ref }}"
           TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
           echo "Ticket Number: $TICKET_NUMBER"
+          if [ -z "$TICKET_NUMBER" ]; then
+            TICKET_NUMBER="none"
+            echo "No ticket number found."
+          fi
           echo "TICKET_NUMBER=$TICKET_NUMBER" >> $GITHUB_ENV
 
       - name: Update PR Description
@@ -32,6 +36,6 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: pr.number,
-                body: `## Ticket: #${ticketNumber}\n\n${pr.body || "Description not provided."}`
+                body: `## Task: #${ticketNumber}\n\n${pr.body || `https://dev.azure.com/fadv-devops/ProdDev/_workitems/edit/${ticketNumber}`}`
               });
             }
