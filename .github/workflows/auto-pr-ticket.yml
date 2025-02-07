@@ -19,7 +19,7 @@ jobs:
           TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
           echo "Ticket Number: $TICKET_NUMBER"
           if [ -z "$TICKET_NUMBER" ]; then
-            TICKET_NUMBER="none"
+            TICKET_NUMBER="0"
             echo "No ticket number found."
           fi
           echo "TICKET_NUMBER=$TICKET_NUMBER" >> $GITHUB_ENV
@@ -30,7 +30,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const ticketNumber = process.env.TICKET_NUMBER;
-            if (ticketNumber && !isNaN(ticketNumber) && Number.isFinite(Number(ticketNumber))) {
+            if (ticketNumber && ticketNumber != "0") {
               const pr = context.payload.pull_request;
               github.rest.pulls.update({
                 owner: context.repo.owner,
