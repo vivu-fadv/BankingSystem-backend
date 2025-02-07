@@ -18,24 +18,19 @@ jobs:
           BRANCH_NAME="${{ github.head_ref }}"
           TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
           echo "Ticket Number: $TICKET_NUMBER"
-          if [ -z "$TICKET_NUMBER" ]; then
-            TICKET_NUMBER=""
-          fi
-          echo "TICKET_NUMBER=$TICKET_NUMBER" >> 
-      - name: Update PR Comment
-        if: env.TICKET_NUMBER != ''
+          echo "TICKET_NUMBER=$TICKET_NUMBER" >> $GITHUB_ENV
+
+      - name: Update PR Description
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const ticketNumber = process.env.TICKET_NUMBER;
-            if (ticketNumber && ticketNumber.trim() !== '') {
-              const pr = context.payload.pull_request;
-              const newBody = `## Task: #${ticketNumber}\n\n${pr.body || `https://dev.azure.com/fadv-devops/ProdDev/_workitems/edit/${ticketNumber}`}`;
-              github.rest.pulls.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: pr.number,
-                body: newBody
-              });
-            }
+            if (ticketNumber && !isNaN(ticketNumber) && Number.isFinite(Number(ticketNumber)))
+            const pr = context.payload.pull_request;
+            github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              body: `## Ticket: #${ticketNumber}\n\n${pr.body || "Description not provided."}`
+            });
