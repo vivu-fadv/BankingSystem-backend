@@ -1,0 +1,35 @@
+name: Auto PR Ticket Number
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  comment-ticket-number:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Ticket Number from Branch Name
+        id: extract_ticket
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+          TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
+          if [[ -z "$TICKET_NUMBER" ]]; then
+            echo "No ticket number found."
+            exit 0
+          fi
+          echo "TICKET_NUMBER=$TICKET_NUMBER" >> $GITHUB_ENV
+
+      - name: Comment on Pull Request
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const ticketNumber = process.env.TICKET_NUMBER;
+            if (!ticketNumber) return;
+            const pr = context.payload.pull_request;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body: `🚀 **Ticket Number:** #${ticketNumber}\n\nThis PR is linked to ticket **#${ticketNumber}**.`
+            });
