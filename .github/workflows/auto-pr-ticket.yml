@@ -16,10 +16,10 @@ jobs:
         id: extract_ticket
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
-          TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
+           TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
           echo "Ticket Number: $TICKET_NUMBER"
           if [ -z "$TICKET_NUMBER" ]; then
-            TICKET_NUMBER=""
+            echo "No ticket number found."
           fi
           echo "TICKET_NUMBER=$TICKET_NUMBER" >> 
       - name: Update PR Comment
