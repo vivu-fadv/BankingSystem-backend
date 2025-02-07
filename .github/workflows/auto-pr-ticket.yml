@@ -18,9 +18,14 @@ jobs:
           BRANCH_NAME="${{ github.head_ref }}"
           TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
           echo "Ticket Number: $TICKET_NUMBER"
+          if [ -z "$TICKET_NUMBER" ]; then
+            echo "No ticket number found."
+            exit 0
+          fi
           echo "TICKET_NUMBER=$TICKET_NUMBER" >> $GITHUB_ENV
 
       - name: Update PR Comment
+        if: env.TICKET_NUMBER != ''
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
