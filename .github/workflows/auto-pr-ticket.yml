@@ -22,7 +22,6 @@ jobs:
       - name: Comment on Pull Request
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const ticketNumber = process.env.TICKET_NUMBER;
             if (!ticketNumber) return;
