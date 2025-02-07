@@ -31,7 +31,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const ticketNumber = process.env.TICKET_NUMBER;
-            if (ticketNumber) { 
+            if (ticketNumber) {
               const pr = context.payload.pull_request;
               github.rest.pulls.update({
                 owner: context.repo.owner,
