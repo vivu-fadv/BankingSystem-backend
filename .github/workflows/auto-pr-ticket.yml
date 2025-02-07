@@ -1,4 +1,4 @@
-name: Auto PR Description
+name: Auto PR Comment
 
 on:
   pull_request:
@@ -20,7 +20,7 @@ jobs:
           echo "Ticket Number: $TICKET_NUMBER"
           echo "TICKET_NUMBER=$TICKET_NUMBER" >> $GITHUB_ENV
 
-      - name: Update PR Description
+      - name: Update PR Comment
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
