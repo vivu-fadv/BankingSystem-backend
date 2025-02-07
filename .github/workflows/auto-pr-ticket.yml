@@ -16,13 +16,14 @@ jobs:
         id: extract_ticket
         run: |
          BRANCH_NAME="${{ github.head_ref }}"
-         TICKET_NUMBER="0"
+         TICKET_NUMBER=""
          if [[ "$BRANCH_NAME" =~ ^[0-9]+-[^/]+$ ]]; then
           echo "Branch name matches the pattern number-XXX"
           TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
           echo "Ticket Number: $TICKET_NUMBER"
           else
           echo "Branch name does not match the pattern number-XXX"
+          echo "Ticket Number: $TICKET_NUMBER"
           fi
       - name: Update PR Description
         uses: actions/github-script@v6
@@ -30,7 +31,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const ticketNumber = process.env.TICKET_NUMBER;
-            if (ticketNumber && ticketNumber != "0") {
+            if (ticketNumber && ticketNumber != "") {
               const pr = context.payload.pull_request;
               github.rest.pulls.update({
                 owner: context.repo.owner,
