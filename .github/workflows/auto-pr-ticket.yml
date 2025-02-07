@@ -16,7 +16,7 @@ jobs:
         id: extract_ticket
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
-          TICKET_NUMBER=""
+          TICKET_NUMBER=$(echo "$BRANCH_NAME" | cut -d'-' -f1)
           if [[ "$BRANCH_NAME" =~ ^[0-9]+- ]]; then
             TICKET_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
           fi
