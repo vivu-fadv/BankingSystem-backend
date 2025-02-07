@@ -26,11 +26,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const ticketNumber = process.env.TICKET_NUMBER;
-            if (ticketNumber && !isNaN(ticketNumber) && Number.isFinite(Number(ticketNumber)))
-            const pr = context.payload.pull_request;
-            github.rest.pulls.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-              body: `## Ticket: #${ticketNumber}\n\n${pr.body || "Description not provided."}`
-            });
+            if (ticketNumber && !isNaN(ticketNumber) && Number.isFinite(Number(ticketNumber))) {
+              const pr = context.payload.pull_request;
+              github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                body: `## Ticket: #${ticketNumber}\n\n${pr.body || "Description not provided."}`
+              });
+            }
