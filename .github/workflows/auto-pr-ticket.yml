@@ -20,9 +20,9 @@ jobs:
           echo "Ticket Number: $TICKET_NUMBER"
           if [ -z "$TICKET_NUMBER" ]; then
             echo "No ticket number found."
-            exit 0
+          else
+            echo "TICKET_NUMBER=$TICKET_NUMBER" >> $GITHUB_ENV
           fi
-          echo "TICKET_NUMBER=$TICKET_NUMBER" >> $GITHUB_ENV
 
       - name: Update PR Comment
         if: env.TICKET_NUMBER != ''
