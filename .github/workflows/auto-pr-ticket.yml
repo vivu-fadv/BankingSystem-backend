@@ -32,5 +32,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: pr.number,
-              body: `## Task: #${ticketNumber}\n\n${pr.body || "https://dev.azure.com/fadv-devops/ProdDev/_workitems/edit/"${ticketNumber}}`
+              body: `## Task: #${ticketNumber}\n\n${pr.body || `https://dev.azure.com/fadv-devops/ProdDev/_workitems/edit/${ticketNumber}`}`
             });
