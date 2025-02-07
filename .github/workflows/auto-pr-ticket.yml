@@ -30,13 +30,13 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const ticketNumber = process.env.TICKET_NUMBER;
-            if (ticketNumber && ${ticketNumber}.trim() !== '') {
+            if (ticketNumber && ticketNumber.trim() !== '') {
               const pr = context.payload.pull_request;
               const newBody = `## Task: #${ticketNumber}\n\n${pr.body || `https://dev.azure.com/fadv-devops/ProdDev/_workitems/edit/${ticketNumber}`}`;
-                github.rest.pulls.update({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  pull_number: pr.number,
-                  body: newBody
-                });
+              github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                body: newBody
+              });
             }
