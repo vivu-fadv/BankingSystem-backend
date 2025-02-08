@@ -16,6 +16,7 @@ jobs:
         id: extract_ticket
         run: |
          BRANCH_NAME="${{ github.head_ref }}"
+         BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/feature\///g; s/hotfix\///g')
          TICKET_NUMBER=""
          if [[ "$BRANCH_NAME" =~ ^[0-9]+-[^/]+$ ]]; then
           echo "Branch name matches the pattern number-XXX"
